@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-import 'package:menstrual_tracker/main.dart';
-import 'package:menstrual_tracker/providers/cycle_provider.dart';
-import 'package:menstrual_tracker/providers/theme_provider.dart';
-import 'package:menstrual_tracker/providers/auth_provider.dart';
-import 'package:menstrual_tracker/providers/notification_provider.dart';
-import 'package:menstrual_tracker/providers/education_provider.dart';
-import 'package:menstrual_tracker/providers/language_provider.dart';
+import 'package:ruva_health/main.dart';
+import 'package:ruva_health/providers/cycle_provider.dart';
+import 'package:ruva_health/providers/theme_provider.dart';
+import 'package:ruva_health/providers/auth_provider.dart';
+import 'package:ruva_health/providers/notification_provider.dart';
+import 'package:ruva_health/providers/education_provider.dart';
+import 'package:ruva_health/providers/language_provider.dart';
 
 void main() {
   testWidgets('App loads correctly', (WidgetTester tester) async {

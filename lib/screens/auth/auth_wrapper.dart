@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:menstrual_tracker/providers/auth_provider.dart';
-import 'package:menstrual_tracker/screens/main/main_screen.dart';
-import 'package:menstrual_tracker/screens/auth/login_screen.dart';
+import 'package:ruva_health/providers/auth_provider.dart';
+import 'package:ruva_health/screens/main/main_screen.dart';
+import 'package:ruva_health/screens/auth/login_screen.dart';
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});

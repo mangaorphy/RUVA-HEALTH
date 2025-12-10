@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:menstrual_tracker/models/cycle_data.dart';
-import 'package:menstrual_tracker/models/daily_log.dart';
+import 'package:ruva_health/models/cycle_data.dart';
+import 'package:ruva_health/models/daily_log.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:menstrual_tracker/services/notification_service.dart';
+import 'package:ruva_health/services/notification_service.dart';
 import 'dart:math';
 
 class CycleProvider with ChangeNotifier {

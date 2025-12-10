@@ -14,7 +14,6 @@ class _ChatbotWidgetState extends State<ChatbotWidget>
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   late AnimationController _animationController;
-  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
@@ -22,10 +21,6 @@ class _ChatbotWidgetState extends State<ChatbotWidget>
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
-    );
-    _scaleAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.elasticOut,
     );
 
     // Add welcome message when widget is first created

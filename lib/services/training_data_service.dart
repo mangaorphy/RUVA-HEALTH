@@ -129,7 +129,6 @@ class TrainingDataService {
   // Get training statistics
   static Future<Map<String, dynamic>> getTrainingStats() async {
     final interactions = await _getStoredInteractions();
-    final feedback = await _getStoredFeedback();
     
     // Calculate statistics
     final totalInteractions = interactions.length;
@@ -210,15 +209,6 @@ class TrainingDataService {
     final encodedInteractions = prefs.getStringList(_interactionsKey) ?? [];
     
     return encodedInteractions
-        .map((encoded) => jsonDecode(encoded) as Map<String, dynamic>)
-        .toList();
-  }
-  
-  static Future<List<Map<String, dynamic>>> _getStoredFeedback() async {
-    final prefs = await SharedPreferences.getInstance();
-    final encodedFeedback = prefs.getStringList(_feedbackKey) ?? [];
-    
-    return encodedFeedback
         .map((encoded) => jsonDecode(encoded) as Map<String, dynamic>)
         .toList();
   }
