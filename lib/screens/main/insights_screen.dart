@@ -76,22 +76,38 @@ class _InsightsScreenState extends State<InsightsScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     final cycleProvider = Provider.of<CycleProvider>(context);
     final educationProvider = Provider.of<EducationProvider>(context);
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: isDarkMode ? Colors.grey[900] : const Color(0xFFFDF2F8),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: theme.scaffoldBackgroundColor,
+            backgroundColor: Colors.transparent,
             pinned: true,
             elevation: 0,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFFEC4899).withOpacity(0.1),
+                    const Color(0xFF8B5CF6).withOpacity(0.1),
+                  ],
+                ),
+              ),
+            ),
             title: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
+                color: isDarkMode ? Colors.grey[800] : Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: const Color(0xFFEC4899).withOpacity(0.2),
+                ),
               ),
               child: TextField(
                 controller: _searchController,
@@ -99,19 +115,20 @@ class _InsightsScreenState extends State<InsightsScreen>
                 decoration: InputDecoration(
                   hintText: 'Search articles, topics...',
                   hintStyle: TextStyle(
-                    color: theme.colorScheme.onSurface.withOpacity(0.5),
+                    color: isDarkMode ? Colors.grey[400] : Colors.grey[500],
+                    fontSize: 14,
                   ),
                   prefixIcon: Icon(
-                    Icons.search,
+                    Icons.search_rounded,
                     size: 20,
-                    color: theme.colorScheme.onSurface.withOpacity(0.5),
+                    color: const Color(0xFFEC4899),
                   ),
                   suffixIcon: _searchQuery.isNotEmpty
                       ? IconButton(
-                          icon: Icon(
-                            Icons.clear,
+                          icon: const Icon(
+                            Icons.clear_rounded,
                             size: 20,
-                            color: theme.colorScheme.onSurface.withOpacity(0.5),
+                            color: Color(0xFFEC4899),
                           ),
                           onPressed: () {
                             _searchController.clear();
@@ -137,9 +154,9 @@ class _InsightsScreenState extends State<InsightsScreen>
                       IconButton(
                         icon: Icon(
                           unreadCount > 0
-                              ? Icons.notifications_active
-                              : Icons.notifications_none,
-                          color: theme.colorScheme.onSurface,
+                              ? Icons.notifications_active_rounded
+                              : Icons.notifications_none_rounded,
+                          color: const Color(0xFFEC4899),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -160,7 +177,9 @@ class _InsightsScreenState extends State<InsightsScreen>
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+                              ),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             constraints: const BoxConstraints(
@@ -202,13 +221,30 @@ class _InsightsScreenState extends State<InsightsScreen>
                   const SizedBox(height: 24),
 
                   // Quick Access Section
-                  Text(
-                    'Quick Access',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onSurface,
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+                          ),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Quick Access',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMode
+                              ? Colors.white
+                              : const Color(0xFF2D3748),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
 
@@ -217,13 +253,30 @@ class _InsightsScreenState extends State<InsightsScreen>
                   const SizedBox(height: 24),
 
                   // Learning Journey
-                  Text(
-                    'Your Learning Journey',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onSurface,
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+                          ),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Your Learning Journey',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMode
+                              ? Colors.white
+                              : const Color(0xFF2D3748),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
 
@@ -232,13 +285,30 @@ class _InsightsScreenState extends State<InsightsScreen>
                   const SizedBox(height: 24),
 
                   // Health Insights
-                  Text(
-                    'Health Insights',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onSurface,
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+                          ),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Health Insights',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMode
+                              ? Colors.white
+                              : const Color(0xFF2D3748),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
 
@@ -268,46 +338,83 @@ class _InsightsScreenState extends State<InsightsScreen>
       ),
 
       // Floating Action Button for quick learning
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showQuickLearningModal(context),
-        backgroundColor: theme.colorScheme.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.school),
-        label: const Text('Quick Learn'),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFEC4899).withOpacity(0.4),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: FloatingActionButton.extended(
+          onPressed: () => _showQuickLearningModal(context),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          foregroundColor: Colors.white,
+          icon: const Icon(Icons.school_rounded, size: 22),
+          label: const Text(
+            'Quick Learn',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildSearchResults() {
     final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
 
     if (_searchResults.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(32),
         child: Column(
           children: [
-            Icon(
-              Icons.search_off,
-              size: 64,
-              color: theme.colorScheme.onSurface.withOpacity(0.3),
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFEC4899).withOpacity(0.1),
+                    const Color(0xFF8B5CF6).withOpacity(0.1),
+                  ],
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.search_off_rounded,
+                size: 48,
+                color: Color(0xFFEC4899),
+              ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Text(
               'No results found for "$_searchQuery"',
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.white : const Color(0xFF2D3748),
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              'Try searching for topics like "cycle", "symptoms", or "products"',
-              style: TextStyle(
-                fontSize: 14,
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'Try searching for topics like "cycle", "symptoms", or "products"',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -345,31 +452,31 @@ class _InsightsScreenState extends State<InsightsScreen>
 
     switch (result['type']) {
       case 'article':
-        icon = Icons.article;
-        color = Colors.blue;
+        icon = Icons.article_rounded;
+        color = const Color(0xFFEC4899);
         break;
       case 'guide':
-        icon = Icons.book;
-        color = Colors.green;
+        icon = Icons.book_rounded;
+        color = const Color(0xFF8B5CF6);
         break;
       case 'feature':
-        icon = Icons.analytics;
-        color = Colors.purple;
+        icon = Icons.analytics_rounded;
+        color = const Color(0xFFEC4899);
         break;
       case 'quiz':
-        icon = Icons.quiz;
-        color = Colors.orange;
+        icon = Icons.quiz_rounded;
+        color = const Color(0xFF8B5CF6);
         break;
       case 'videos':
-        icon = Icons.play_circle_filled;
-        color = Colors.red;
+        icon = Icons.play_circle_rounded;
+        color = const Color(0xFFEC4899);
         break;
       case 'resources':
-        icon = Icons.health_and_safety;
-        color = Colors.teal;
+        icon = Icons.health_and_safety_rounded;
+        color = const Color(0xFF8B5CF6);
         break;
       default:
-        icon = Icons.help;
+        icon = Icons.help_rounded;
         color = Colors.grey;
     }
 
@@ -427,16 +534,16 @@ class _InsightsScreenState extends State<InsightsScreen>
       {
         'title': 'Period Products',
         'description': 'Learn about different options',
-        'icon': Icons.inventory_2,
-        'color': Colors.pink,
+        'icon': Icons.inventory_2_rounded,
+        'color': const Color(0xFFEC4899),
         'badge': _buildNewBadge(),
         'onTap': () => _navigateToProductsTab(),
       },
       {
         'title': 'Cycle Quiz',
         'description': 'Test your knowledge',
-        'icon': Icons.quiz,
-        'color': Colors.purple,
+        'icon': Icons.quiz_rounded,
+        'color': const Color(0xFF8B5CF6),
         'badge': _buildProgressBadge(
           educationProvider.getOverallQuizProgress(),
         ),
@@ -445,16 +552,16 @@ class _InsightsScreenState extends State<InsightsScreen>
       {
         'title': 'Educational Videos',
         'description': 'Watch and learn',
-        'icon': Icons.play_circle_filled,
-        'color': Colors.blue,
+        'icon': Icons.play_circle_rounded,
+        'color': const Color(0xFFEC4899),
         'badge': _buildWatchTimeBadge(educationProvider.getTotalWatchTime()),
         'onTap': () => _navigateToVideos(),
       },
       {
         'title': 'Health Resources',
         'description': 'Expert advice & tips',
-        'icon': Icons.health_and_safety,
-        'color': Colors.green,
+        'icon': Icons.health_and_safety_rounded,
+        'color': const Color(0xFF8B5CF6),
         'badge': null,
         'onTap': () => _navigateToResources(),
       },
@@ -465,9 +572,9 @@ class _InsightsScreenState extends State<InsightsScreen>
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 12, // Reduced spacing
-        mainAxisSpacing: 12, // Reduced spacing
-        childAspectRatio: 1.0, // Better ratio to prevent overflow
+        crossAxisSpacing: 14,
+        mainAxisSpacing: 14,
+        childAspectRatio: 0.85,
       ),
       itemCount: quickActions.length,
       itemBuilder: (context, index) {
@@ -488,62 +595,68 @@ class _InsightsScreenState extends State<InsightsScreen>
     EducationProvider educationProvider,
     ThemeData theme,
   ) {
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.orange.withOpacity(0.1), Colors.red.withOpacity(0.1)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color(0xFFEC4899).withOpacity(0.1),
+            const Color(0xFF8B5CF6).withOpacity(0.1),
+          ],
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        border: Border.all(
+          color: const Color(0xFFEC4899).withOpacity(0.3),
+          width: 2,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.trending_up, color: Colors.orange, size: 24),
+              const Icon(Icons.trending_up_rounded,
+                  color: Color(0xFFEC4899), size: 24),
               const SizedBox(width: 8),
               Text(
                 'Your Progress',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.onSurface,
+                  color: isDarkMode ? Colors.white : const Color(0xFF2D3748),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-
           _buildProgressItem(
             'Quizzes Completed',
             educationProvider.getCompletedQuizCount(),
             educationProvider.getTotalQuizCount(),
-            Colors.purple,
+            const Color(0xFF8B5CF6),
             theme,
           ),
           const SizedBox(height: 12),
-
           _buildProgressItem(
             'Videos Watched',
             educationProvider.getWatchedVideoCount(),
             educationProvider.getTotalVideoCount(),
-            Colors.blue,
+            const Color(0xFFEC4899),
             theme,
           ),
           const SizedBox(height: 12),
-
           _buildProgressItem(
             'Resources Explored',
             educationProvider.getExploredResourceCount(),
             educationProvider.getTotalResourceCount(),
-            Colors.green,
+            const Color(0xFF8B5CF6),
             theme,
           ),
-
           const SizedBox(height: 16),
-
           _buildAchievementBadges(educationProvider, theme),
         ],
       ),
@@ -639,7 +752,11 @@ class _InsightsScreenState extends State<InsightsScreen>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('🏆', style: TextStyle(fontSize: 14)),
+                  const Icon(
+                    Icons.emoji_events_rounded,
+                    size: 14,
+                    color: Colors.amber,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     achievement,
@@ -670,7 +787,7 @@ class _InsightsScreenState extends State<InsightsScreen>
         children: [
           Row(
             children: [
-              Icon(Icons.analytics, color: theme.colorScheme.primary),
+              const Icon(Icons.analytics_rounded, color: Color(0xFFEC4899)),
               const SizedBox(width: 8),
               Text(
                 'Cycle Analytics',
@@ -683,7 +800,6 @@ class _InsightsScreenState extends State<InsightsScreen>
             ],
           ),
           const SizedBox(height: 16),
-
           Row(
             children: [
               Expanded(
@@ -705,9 +821,7 @@ class _InsightsScreenState extends State<InsightsScreen>
               ),
             ],
           ),
-
           const SizedBox(height: 16),
-
           _buildInsightTip(cycleProvider, theme),
         ],
       ),
@@ -723,8 +837,8 @@ class _InsightsScreenState extends State<InsightsScreen>
     final statusColor = status == 'Normal'
         ? Colors.green
         : status == 'Irregular'
-        ? Colors.orange
-        : Colors.blue;
+            ? Colors.orange
+            : Colors.blue;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -783,7 +897,23 @@ class _InsightsScreenState extends State<InsightsScreen>
       ),
       child: Row(
         children: [
-          const Text('💡', style: TextStyle(fontSize: 20)),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFFEC4899).withOpacity(0.2),
+                  const Color(0xFF8B5CF6).withOpacity(0.2),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(
+              Icons.lightbulb_rounded,
+              size: 20,
+              color: Color(0xFFEC4899),
+            ),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -818,7 +948,9 @@ class _InsightsScreenState extends State<InsightsScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.red,
+        gradient: const LinearGradient(
+          colors: [Color(0xFFEC4899), Color(0xFF8B5CF6)],
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: const Text(
@@ -836,7 +968,7 @@ class _InsightsScreenState extends State<InsightsScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.purple,
+        color: const Color(0xFF8B5CF6),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -854,7 +986,7 @@ class _InsightsScreenState extends State<InsightsScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: const Color(0xFFEC4899),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

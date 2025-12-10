@@ -81,8 +81,8 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
   Future<void> _testImmediatePeriodNotification() async {
     try {
       await _notificationService.showImmediateNotification(
-        title: '🌸 Period Reminder',
-        body: 'Your period is expected in 2 days. Stay prepared! 💕',
+        title: 'Period Reminder',
+        body: 'Your period is expected in 2 days. Stay prepared!',
         payload: 'test_period_reminder',
         notificationId: 7777,
       );
@@ -109,7 +109,17 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notification Debug'),
-        backgroundColor: theme.primaryColor,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
+            ),
+          ),
+        ),
         foregroundColor: Colors.white,
       ),
       body: _isLoading
@@ -184,10 +194,11 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: _testNotification,
-                              icon: const Icon(Icons.notifications_active),
+                              icon: const Icon(
+                                  Icons.notifications_active_rounded),
                               label: const Text('Test Immediate Notification'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
+                                backgroundColor: const Color(0xFF8B5CF6),
                                 foregroundColor: Colors.white,
                               ),
                             ),
@@ -200,10 +211,10 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: _testImmediatePeriodNotification,
-                              icon: const Icon(Icons.favorite),
+                              icon: const Icon(Icons.favorite_rounded),
                               label: const Text('Test Period Notification'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.pink,
+                                backgroundColor: const Color(0xFFEC4899),
                                 foregroundColor: Colors.white,
                               ),
                             ),
@@ -216,7 +227,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: _testPeriodReminder,
-                              icon: const Icon(Icons.schedule),
+                              icon: const Icon(Icons.schedule_rounded),
                               label: const Text('Schedule Test Reminder'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.orange,
@@ -251,22 +262,23 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
                             ...(_notificationStatus!['pending_notifications']
                                     as List)
                                 .map(
-                                  (notification) => Card(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    child: ListTile(
-                                      leading: const Icon(Icons.notifications),
-                                      title: Text(
-                                        notification['title'] ?? 'No title',
-                                      ),
-                                      subtitle: Text(
-                                        notification['body'] ?? 'No body',
-                                      ),
-                                      trailing: Text(
-                                        'ID: ${notification['id']}',
-                                      ),
-                                    ),
+                              (notification) => Card(
+                                margin: const EdgeInsets.only(bottom: 8),
+                                child: ListTile(
+                                  leading:
+                                      const Icon(Icons.notifications_rounded),
+                                  title: Text(
+                                    notification['title'] ?? 'No title',
+                                  ),
+                                  subtitle: Text(
+                                    notification['body'] ?? 'No body',
+                                  ),
+                                  trailing: Text(
+                                    'ID: ${notification['id']}',
                                   ),
                                 ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -316,11 +328,12 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
 
   Widget _buildStatusRow(String label, dynamic value) {
     Color color = Colors.grey;
-    Icon icon = const Icon(Icons.help, color: Colors.grey);
+    Icon icon = const Icon(Icons.help_rounded, color: Colors.grey);
 
     if (value is bool) {
       color = value ? Colors.green : Colors.red;
-      icon = Icon(value ? Icons.check_circle : Icons.error, color: color);
+      icon = Icon(value ? Icons.check_circle_rounded : Icons.error_rounded,
+          color: color);
     }
 
     return Padding(

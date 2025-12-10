@@ -373,8 +373,8 @@ class _QuizScreenState extends State<QuizScreen> {
                   colors: percentage >= 80
                       ? [Colors.green.shade300, Colors.green.shade400]
                       : percentage >= 60
-                      ? [Colors.orange.shade300, Colors.orange.shade400]
-                      : [Colors.red.shade300, Colors.red.shade400],
+                          ? [Colors.orange.shade300, Colors.orange.shade400]
+                          : [Colors.red.shade300, Colors.red.shade400],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -393,8 +393,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     percentage >= 80
                         ? Icons.celebration
                         : percentage >= 60
-                        ? Icons.thumb_up
-                        : Icons.refresh,
+                            ? Icons.thumb_up
+                            : Icons.refresh,
                     color: Colors.white,
                     size: 48,
                   ),
@@ -409,9 +409,9 @@ class _QuizScreenState extends State<QuizScreen> {
                   ),
                   Text(
                     '$score out of ${quiz!.questions.length} correct',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.white.withValues(alpha: 0.9),
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -419,8 +419,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     percentage >= 80
                         ? 'Excellent work!'
                         : percentage >= 60
-                        ? 'Good job!'
-                        : 'Keep learning!',
+                            ? 'Good job!'
+                            : 'Keep learning!',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

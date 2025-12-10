@@ -15,42 +15,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late AnimationController _pulseController;
   late AnimationController _slideController;
-  late AnimationController _rotateController;
-  late AnimationController _bounceController;
-  late Animation<double> _pulseAnimation;
   late Animation<Offset> _slideAnimation;
-  late Animation<double> _rotateAnimation;
-  late Animation<double> _bounceAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize animations
-    _pulseController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: true);
-
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
-    );
-
-    _rotateController = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..repeat();
-
-    _bounceController = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-
-    _pulseAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
 
     _slideAnimation = Tween<Offset>(
@@ -58,26 +32,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
 
-    _rotateAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(_rotateController);
-
-    _bounceAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _bounceController, curve: Curves.elasticOut),
-    );
-
-    // Start animations
     _slideController.forward();
-    _bounceController.forward();
   }
 
   @override
   void dispose() {
-    _pulseController.dispose();
     _slideController.dispose();
-    _rotateController.dispose();
-    _bounceController.dispose();
     super.dispose();
   }
 
@@ -106,56 +66,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ],
           ),
         ),
-        child: Stack(
-          children: [
-            // Floating background elements
-            _buildFloatingElements(),
-            SafeArea(
-              child: Column(
-                children: [
-                  // Custom App Bar
-                  _buildCustomAppBar(),
-                  // Login Reminder Banner
-                  _buildLoginReminderBanner(),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 20,
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width - 32,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildAnimatedGreeting(),
-                            const SizedBox(height: 30),
-                            _buildCycleOverview(cycleProvider),
-                            const SizedBox(height: 20),
-                            _buildCycleStatsBar(cycleProvider),
-                            const SizedBox(height: 30),
-                            _buildQuickActions(),
-                            const SizedBox(height: 30),
-                            _buildChatbotSection(),
-                            const SizedBox(height: 30),
-                            _buildProductGuideSection(),
-                            const SizedBox(height: 30),
-                            _buildHealthInsights(),
-                            const SizedBox(height: 30),
-                            _buildTodaysReminders(),
-                            // Extra spacing for curved bottom navigation
-                            const SizedBox(height: 100),
-                          ],
-                        ),
-                      ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Custom App Bar
+              _buildCustomAppBar(),
+              // Login Reminder Banner
+              _buildLoginReminderBanner(),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 20,
+                  ),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width - 32,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildAnimatedGreeting(),
+                        const SizedBox(height: 24),
+                        _buildCycleOverview(cycleProvider),
+                        const SizedBox(height: 20),
+                        _buildCycleStatsBar(cycleProvider),
+                        const SizedBox(height: 24),
+                        _buildQuickActions(),
+                        const SizedBox(height: 24),
+                        _buildChatbotSection(),
+                        const SizedBox(height: 24),
+                        _buildHealthInsights(),
+                        const SizedBox(height: 24),
+                        _buildTodaysReminders(),
+                        const SizedBox(height: 100),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -164,12 +115,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildCustomAppBar() {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDarkMode
+              ? [
+                  const Color(0xFF1F1F1F),
+                  const Color(0xFF2A2A2A),
+                ]
+              : [
+                  const Color(0xFFFDF2F8), // Soft pink
+                  const Color(0xFFFCE7F3), // Light pink
+                  const Color(0xFFF3E8FF), // Light purple
+                ],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isDarkMode
+                ? Colors.black.withOpacity(0.3)
+                : const Color(0xFFEC4899).withOpacity(0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Menu/Profile
+          // Menu/Profile Icon
           GestureDetector(
             onTap: () {
               Provider.of<NavigationProvider>(
@@ -178,110 +158,176 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ).navigateToInsights();
             },
             child: Container(
-              width: 40,
-              height: 40,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
-                color: isDarkMode
-                    ? Colors.white.withOpacity(0.1)
-                    : Colors.white.withOpacity(0.8),
-                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFFEC4899).withOpacity(0.2),
+                    const Color(0xFF8B5CF6).withOpacity(0.2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: isDarkMode
-                      ? Colors.white.withOpacity(0.2)
-                      : Colors.grey.withOpacity(0.3),
+                      ? Colors.white.withOpacity(0.15)
+                      : const Color(0xFFEC4899).withOpacity(0.3),
+                  width: 1.5,
                 ),
               ),
               child: Icon(
-                Icons.insights,
-                color: isDarkMode ? Colors.white : Colors.black87,
-                size: 20,
+                Icons.analytics_rounded,
+                color: isDarkMode ? Colors.white : const Color(0xFFEC4899),
+                size: 22,
               ),
             ),
           ),
 
-          // Date
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: isDarkMode
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.white.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: isDarkMode
-                    ? Colors.white.withOpacity(0.2)
-                    : Colors.grey.withOpacity(0.3),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.calendar_today,
-                  size: 16,
-                  color: isDarkMode ? Colors.white : Colors.black87,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  _getCurrentDate(),
-                  style: TextStyle(
-                    color: isDarkMode ? Colors.white : Colors.black87,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Notification bell with badge
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/notifications');
-            },
-            icon: Stack(
-              children: [
-                Icon(
-                  Icons.notifications_outlined,
-                  size: 24,
-                  color: isDarkMode ? Colors.white : Color(0xFF7B6F72),
-                ),
-                Consumer<NotificationProvider>(
-                  builder: (context, notificationProvider, child) {
-                    final unreadCount = notificationProvider.unreadCount;
-                    if (unreadCount > 0) {
-                      return Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4,
-                            vertical: 2,
+          // App Logo with enhanced styling
+          Expanded(
+            child: Center(
+              child: Container(
+                height: 50,
+                constraints: const BoxConstraints(maxWidth: 200),
+                child: Image.asset(
+                  'assets/app_logo.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    // Fallback to RUVA HEALTH branding
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color(0xFFEC4899),
+                            const Color(0xFFDB2777),
+                            const Color(0xFF8B5CF6),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFEC4899).withOpacity(0.4),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
                           ),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFFF6B9D),
-                            borderRadius: BorderRadius.circular(10),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(
+                              Icons.favorite_rounded,
+                              size: 16,
+                              color: Colors.white,
+                            ),
                           ),
-                          constraints: BoxConstraints(
-                            minWidth: 16,
-                            minHeight: 16,
-                          ),
-                          child: Text(
-                            unreadCount > 99 ? '99+' : unreadCount.toString(),
+                          const SizedBox(width: 10),
+                          Text(
+                            'RUVA HEALTH',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 15,
+                              letterSpacing: 1.5,
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                        ),
-                      );
-                    }
-                    return SizedBox.shrink();
+                        ],
+                      ),
+                    );
                   },
                 ),
-              ],
+              ),
+            ),
+          ),
+
+          // Notification bell with enhanced badge
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/notifications');
+            },
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? Colors.white.withOpacity(0.05)
+                    : const Color(0xFFF3F4F6),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: isDarkMode
+                      ? Colors.white.withOpacity(0.1)
+                      : Colors.grey.withOpacity(0.2),
+                ),
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(
+                    Icons.notifications_rounded,
+                    size: 22,
+                    color: isDarkMode ? Colors.white : const Color(0xFF374151),
+                  ),
+                  Consumer<NotificationProvider>(
+                    builder: (context, notificationProvider, child) {
+                      final unreadCount = notificationProvider.unreadCount;
+                      if (unreadCount > 0) {
+                        return Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFFEF4444),
+                                  Color(0xFFDC2626),
+                                ],
+                              ),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      const Color(0xFFEF4444).withOpacity(0.5),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 18,
+                              minHeight: 18,
+                            ),
+                            child: Text(
+                              unreadCount > 9 ? '9+' : unreadCount.toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -289,100 +335,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  String _getCurrentDate() {
-    final now = DateTime.now();
-    final months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    return '${months[now.month - 1]} ${now.day}';
-  }
-
-  Widget _buildFloatingElements() {
-    return Stack(
-      children: [
-        // Floating element 1
-        Positioned(
-          top: 100,
-          right: 50,
-          child: RotationTransition(
-            turns: _rotateAnimation,
-            child: Opacity(
-              opacity: 0.3,
-              child: Text('🌙', style: TextStyle(fontSize: 40)),
-            ),
-          ),
-        ),
-        // Floating element 2
-        Positioned(
-          top: 200,
-          left: 30,
-          child: ScaleTransition(
-            scale: _pulseAnimation,
-            child: Opacity(
-              opacity: 0.2,
-              child: Text('⭐', style: TextStyle(fontSize: 30)),
-            ),
-          ),
-        ),
-        // Floating element 3
-        Positioned(
-          top: 400,
-          right: 20,
-          child: RotationTransition(
-            turns: _rotateAnimation,
-            child: Opacity(
-              opacity: 0.25,
-              child: Text('🌸', style: TextStyle(fontSize: 35)),
-            ),
-          ),
-        ),
-        // Floating element 4
-        Positioned(
-          bottom: 200,
-          left: 40,
-          child: ScaleTransition(
-            scale: _bounceAnimation,
-            child: Opacity(
-              opacity: 0.2,
-              child: Text('💫', style: TextStyle(fontSize: 25)),
-            ),
-          ),
-        ),
-        // Floating element 5
-        Positioned(
-          bottom: 300,
-          right: 60,
-          child: RotationTransition(
-            turns: _rotateAnimation,
-            child: Opacity(
-              opacity: 0.15,
-              child: Text('🦋', style: TextStyle(fontSize: 45)),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildAnimatedGreeting() {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryTextColor = isDarkMode
-        ? Colors.white
-        : const Color(0xFF2D3748);
-    final secondaryTextColor = isDarkMode
-        ? Colors.white.withOpacity(0.8)
-        : const Color(0xFF4A5568);
+    final primaryTextColor =
+        isDarkMode ? Colors.white : const Color(0xFF2D3748);
+    final secondaryTextColor =
+        isDarkMode ? Colors.white.withOpacity(0.8) : const Color(0xFF4A5568);
     final containerColor = isDarkMode
         ? Colors.white.withOpacity(0.1)
         : Colors.white.withOpacity(0.9);
@@ -451,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         return Opacity(
                           opacity: value,
                           child: Text(
-                            'How are you feeling today?',
+                            _getGreetingMessage(),
                             style: TextStyle(
                               fontSize: 14,
                               color: secondaryTextColor,
@@ -465,52 +423,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Stack(
-                  children: [
-                    ScaleTransition(
-                      scale: _pulseAnimation,
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.pink.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        child: const Icon(
-                          Icons.favorite,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                    // Floating emojis around the heart
-                    Positioned(
-                      top: -10,
-                      right: -5,
-                      child: ScaleTransition(
-                        scale: _pulseAnimation,
-                        child: const Text('✨', style: TextStyle(fontSize: 20)),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -5,
-                      left: -10,
-                      child: RotationTransition(
-                        turns: _rotateAnimation,
-                        child: const Text('🌸', style: TextStyle(fontSize: 16)),
-                      ),
-                    ),
-                    Positioned(
-                      top: 10,
-                      left: -15,
-                      child: ScaleTransition(
-                        scale: _bounceAnimation,
-                        child: const Text('💖', style: TextStyle(fontSize: 14)),
-                      ),
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      const Color(0xFFEC4899),
+                      const Color(0xFF8B5CF6),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFEC4899).withOpacity(0.3),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
                   ],
+                ),
+                child: const Icon(
+                  Icons.favorite_rounded,
+                  color: Colors.white,
+                  size: 30,
                 ),
               ),
             ],
@@ -528,6 +465,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return 'Good Afternoon!';
     } else {
       return 'Good Evening!';
+    }
+  }
+
+  String _getGreetingMessage() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Welcome to RUVA HEALTH - Start your wellness journey';
+    } else if (hour < 17) {
+      return 'RUVA HEALTH - Your health companion';
+    } else {
+      return 'RUVA HEALTH - Tracking your wellness';
     }
   }
 
@@ -758,13 +706,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'My Daily Insights',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: titleColor,
-          ),
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    const Color(0xFFEC4899),
+                    const Color(0xFF8B5CF6),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'My Daily Insights',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: titleColor,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 20),
         Row(
@@ -793,23 +761,58 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: Container(
         height: 140,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isDarkMode ? const Color(0xFF374151) : const Color(0xFF6B7280),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color(0xFFEC4899),
+              const Color(0xFFF43F5E),
+            ],
+          ),
           borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFEC4899).withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.calendar_today, color: Colors.white, size: 24),
-            const SizedBox(height: 8),
-            Text(
-              'Log Period',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
+              child: const Icon(Icons.calendar_today,
+                  color: Colors.white, size: 24),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Log Period',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Track your cycle',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -824,7 +827,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: Container(
         height: 140,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -832,19 +835,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             colors: [const Color(0xFF6366F1), const Color(0xFF8B5CF6)],
           ),
           borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF6366F1).withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.water_drop, color: Colors.white, size: 24),
-            const SizedBox(height: 8),
-            Text(
-              'Log Flow',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
+              child:
+                  const Icon(Icons.water_drop, color: Colors.white, size: 24),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Log Flow',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Monitor intensity',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -859,7 +890,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: Container(
         height: 140,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -867,19 +898,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             colors: [const Color(0xFFF59E0B), const Color(0xFFEF4444)],
           ),
           borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFF59E0B).withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.mood, color: Colors.white, size: 24),
-            const SizedBox(height: 8),
-            Text(
-              'Log Mood',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
+              child: const Icon(Icons.mood, color: Colors.white, size: 24),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Log Mood',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Track emotions',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -894,7 +952,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       },
       child: Container(
         height: 140,
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -902,103 +960,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             colors: [const Color(0xFF10B981), const Color(0xFF059669)],
           ),
           borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF10B981).withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.health_and_safety, color: Colors.white, size: 24),
-            const SizedBox(height: 8),
-            Text(
-              'Log Symptoms',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
+              child: const Icon(Icons.health_and_safety,
+                  color: Colors.white, size: 24),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Log Symptoms',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Monitor changes',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildProductGuideSection() {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final containerColor = isDarkMode
-        ? Colors.white.withOpacity(0.1)
-        : Colors.white.withOpacity(0.9);
-    final borderColor = isDarkMode
-        ? Colors.white.withOpacity(0.2)
-        : Colors.grey.withOpacity(0.3);
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF2D3748);
-    final textColor = isDarkMode
-        ? Colors.white.withOpacity(0.8)
-        : const Color(0xFF4A5568);
-
-    return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 1800),
-      tween: Tween<double>(begin: 0, end: 1),
-      builder: (context, value, child) {
-        return Transform.translate(
-          offset: Offset(0, (1 - value) * 50),
-          child: Opacity(
-            opacity: value,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: containerColor,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: borderColor),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Product Guide',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: titleColor,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Watch our video guide to learn more about different types of period products and find the best one for you.',
-                    style: TextStyle(fontSize: 16, color: textColor),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          'https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -1009,36 +1015,48 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Health Insights',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: titleColor,
-          ),
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    const Color(0xFFEC4899),
+                    const Color(0xFF8B5CF6),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Health Insights',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: titleColor,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         _buildInsightRow(
           'Understanding Your Cycle',
-          'Learn about the different phases and what they mean for your body.',
-          Icons.book_outlined,
-          Colors.teal,
+          'Learn about cycle phases',
+          Icons.auto_awesome_rounded,
+          const Color(0xFF8B5CF6),
           isDarkMode,
         ),
         const SizedBox(height: 12),
         _buildInsightRow(
-          'Nutrition Tips for Your Phase',
-          'Discover foods that can help you feel your best throughout your cycle.',
-          Icons.restaurant_menu_outlined,
-          Colors.orange,
-          isDarkMode,
-        ),
-        const SizedBox(height: 12),
-        _buildInsightRow(
-          'Exercise and Your Cycle',
-          'Find out the best workouts for each phase to maximize your energy.',
-          Icons.fitness_center_outlined,
-          Colors.blue,
+          'Wellness Tips',
+          'Nutrition and exercise guidance',
+          Icons.favorite_rounded,
+          const Color(0xFFEC4899),
           isDarkMode,
         ),
       ],
@@ -1059,9 +1077,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ? Colors.white.withOpacity(0.2)
         : Colors.grey.withOpacity(0.3);
     final textColor = isDarkMode ? Colors.white : const Color(0xFF2D3748);
-    final subtitleColor = isDarkMode
-        ? Colors.white.withOpacity(0.8)
-        : const Color(0xFF4A5568);
+    final subtitleColor =
+        isDarkMode ? Colors.white.withOpacity(0.8) : const Color(0xFF4A5568);
 
     return GestureDetector(
       onTap: () {
@@ -1117,75 +1134,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildTodaysReminders() {
-    final titleColor = Colors.white;
-    final textColor = Colors.white.withOpacity(0.9);
-
-    return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 2200),
-      tween: Tween<double>(begin: 0, end: 1),
-      builder: (context, value, child) {
-        return Transform.translate(
-          offset: Offset(0, (1 - value) * 50),
-          child: Opacity(
-            opacity: value,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.blue.shade300, Colors.purple.shade300],
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Gentle Reminders',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: titleColor,
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.notifications, color: Colors.white),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/notification-settings',
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  _buildReminderItem('💧', 'Stay hydrated today', textColor),
-                  const SizedBox(height: 12),
-                  _buildReminderItem(
-                    '🧘‍♀️',
-                    'Take a moment for yourself',
-                    textColor,
-                  ),
-                ],
-              ),
-            ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color(0xFF6366F1),
+            const Color(0xFF8B5CF6),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF6366F1).withOpacity(0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 8),
           ),
-        );
-      },
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Daily Reminders',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  Icons.notifications_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          _buildReminderItem(
+            Icons.water_drop_rounded,
+            'Stay hydrated',
+            Colors.white.withOpacity(0.95),
+          ),
+          const SizedBox(height: 12),
+          _buildReminderItem(
+            Icons.self_improvement_rounded,
+            'Take time for self-care',
+            Colors.white.withOpacity(0.95),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildReminderItem(String emoji, String text, Color textColor) {
+  Widget _buildReminderItem(IconData icon, String text, Color textColor) {
     return Row(
       children: [
-        ScaleTransition(
-          scale: _pulseAnimation,
-          child: Text(emoji, style: const TextStyle(fontSize: 20)),
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, color: Colors.white, size: 20),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -1326,7 +1349,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Ask MenstruAI',
+                        'Ask RUVA HEALTH AI',
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
@@ -1348,7 +1371,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
           // Chatbot Widget
           Container(
-            height: 400, // Fixed height for the chat interface
+            height: 320,
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: const ChatbotWidget(),
           ),

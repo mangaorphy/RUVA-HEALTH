@@ -69,7 +69,7 @@ class _NotificationSettingsScreenState
               children: [
                 // Header
                 Text(
-                  'Stay on track with gentle reminders 💕',
+                  'Stay on track with gentle reminders',
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -86,8 +86,8 @@ class _NotificationSettingsScreenState
                 // Period Reminders Section
                 _buildSectionCard(
                   title: 'Period Reminders',
-                  icon: Icons.calendar_month,
-                  iconColor: Colors.pinkAccent,
+                  icon: Icons.calendar_month_rounded,
+                  iconColor: const Color(0xFFEC4899),
                   children: [
                     _buildSwitchTile(
                       title: 'Period Reminders',
@@ -108,8 +108,8 @@ class _NotificationSettingsScreenState
                 // Daily Log Reminders Section
                 _buildSectionCard(
                   title: 'Daily Reminders',
-                  icon: Icons.edit_note,
-                  iconColor: Colors.purple,
+                  icon: Icons.edit_note_rounded,
+                  iconColor: const Color(0xFF8B5CF6),
                   children: [
                     _buildSwitchTile(
                       title: 'Daily Log Reminders',
@@ -130,7 +130,7 @@ class _NotificationSettingsScreenState
                 // Fertile Window Section
                 _buildSectionCard(
                   title: 'Fertile Window',
-                  icon: Icons.eco,
+                  icon: Icons.eco_rounded,
                   iconColor: Colors.green,
                   children: [
                     _buildSwitchTile(
@@ -325,7 +325,7 @@ class _NotificationSettingsScreenState
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  Icons.access_time,
+                  Icons.access_time_rounded,
                   color: theme.colorScheme.primary,
                   size: 20,
                 ),
@@ -359,7 +359,8 @@ class _NotificationSettingsScreenState
       ),
       child: Column(
         children: [
-          Icon(Icons.info_outline, color: theme.colorScheme.primary, size: 24),
+          Icon(Icons.info_outline_rounded,
+              color: theme.colorScheme.primary, size: 24),
           const SizedBox(height: 8),
           Text(
             'Notification Status',

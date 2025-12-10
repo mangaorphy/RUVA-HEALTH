@@ -63,7 +63,7 @@ class TrainingDataFormat {
         {
           "role": "system",
           "content":
-              "You are MenstruAI, a specialized assistant for menstrual health.",
+              "You are RUVA HEALTH AI Assistant, a specialized assistant for menstrual health.",
         },
         {"role": "user", "content": userMessage},
         {"role": "assistant", "content": assistantResponse},
@@ -85,7 +85,8 @@ class TrainingDataFormat {
     String assistantResponse,
   ) {
     return {
-      "instruction": "Respond as MenstruAI, a menstrual health assistant.",
+      "instruction":
+          "Respond as RUVA HEALTH AI Assistant, a menstrual health companion.",
       "input": userMessage,
       "output": assistantResponse,
     };

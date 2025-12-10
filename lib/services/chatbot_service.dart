@@ -26,7 +26,7 @@ class ChatbotService {
   static final List<Map<String, dynamic>> _interactionLog = [];
 
   static const String _systemPrompt = '''
-You are MenstruAI, a helpful and knowledgeable assistant specialized in menstrual health, reproductive wellness, and women's health. You are integrated into a menstrual cycle tracking app.
+You are RUVA HEALTH AI Assistant, a helpful and knowledgeable assistant specialized in menstrual health, reproductive wellness, and women's health. You are integrated into the RUVA HEALTH menstrual cycle tracking app.
 
 Your expertise includes:
 - Menstrual cycle phases and hormones
@@ -282,7 +282,7 @@ Respond in a caring, knowledgeable way that empowers users with information whil
     if (lowerMessage.contains('hello') ||
         lowerMessage.contains('hi') ||
         lowerMessage.contains('hey')) {
-      return "Hello! I'm MenstruAI, your personal menstrual health assistant. I'm here to help with questions about your cycle, symptoms, and app features. What would you like to know?";
+      return "Hello! I'm RUVA HEALTH AI Assistant, your personal menstrual health companion. I'm here to help with questions about your cycle, symptoms, and app features. What would you like to know?";
     }
 
     if (lowerMessage.contains('help')) {

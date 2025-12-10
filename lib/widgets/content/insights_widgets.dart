@@ -353,6 +353,7 @@ class _InteractiveContentCardState extends State<InteractiveContentCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
 
     return GestureDetector(
       onTapDown: (_) {
@@ -374,91 +375,118 @@ class _InteractiveContentCardState extends State<InteractiveContentCard>
           return Transform.scale(
             scale: _scaleAnimation.value,
             child: Container(
-              padding: const EdgeInsets.all(16), // Reduced padding
               decoration: BoxDecoration(
-                color: theme.cardColor,
-                borderRadius: BorderRadius.circular(20),
+                color: isDarkMode ? Colors.grey[850] : Colors.white,
+                borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: _isPressed
-                      ? widget.color.withOpacity(0.5)
-                      : widget.color.withOpacity(0.2),
-                  width: _isPressed ? 2 : 1,
+                      ? widget.color.withOpacity(0.6)
+                      : widget.color.withOpacity(0.25),
+                  width: _isPressed ? 2.5 : 2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: widget.color.withOpacity(_isPressed ? 0.3 : 0.1),
-                    blurRadius: _isPressed ? 15 : 8,
-                    offset: Offset(0, _isPressed ? 8 : 4),
+                    color: widget.color.withOpacity(_isPressed ? 0.25 : 0.12),
+                    blurRadius: _isPressed ? 16 : 10,
+                    offset: Offset(0, _isPressed ? 6 : 3),
                   ),
                 ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min, // Minimize space usage
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10), // Reduced padding
-                        decoration: BoxDecoration(
-                          color: widget.color.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(
-                            10,
-                          ), // Smaller radius
+                  // Header with icon and badge
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: widget.color.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Icon(
+                            widget.icon,
+                            color: widget.color,
+                            size: 28,
+                          ),
                         ),
-                        child: Icon(
-                          widget.icon,
-                          color: widget.color,
-                          size: 20,
-                        ), // Smaller icon
-                      ),
-                      const Spacer(),
-                      if (widget.badge != null) widget.badge!,
-                    ],
-                  ),
-                  const SizedBox(height: 12), // Reduced spacing
-                  Flexible(
-                    child: Text(
-                      widget.title,
-                      style: TextStyle(
-                        fontSize: 16, // Slightly smaller
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                        if (widget.badge != null) widget.badge!,
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 6), // Reduced spacing
-                  Flexible(
-                    child: Text(
-                      widget.description,
-                      style: TextStyle(
-                        fontSize: 12, // Smaller text
-                        color: theme.colorScheme.onSurface.withOpacity(0.7),
+                  // Content
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.title,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode
+                                  ? Colors.white
+                                  : const Color(0xFF2D3748),
+                              height: 1.2,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          Flexible(
+                            child: Text(
+                              widget.description,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: isDarkMode
+                                    ? Colors.grey[400]
+                                    : Colors.grey[600],
+                                height: 1.2,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          // Action indicator
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: widget.color.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Explore',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: widget.color,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  size: 12,
+                                  color: widget.color,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  const SizedBox(height: 12), // Reduced spacing
-                  Row(
-                    children: [
-                      Text(
-                        'Explore',
-                        style: TextStyle(
-                          fontSize: 12, // Smaller text
-                          fontWeight: FontWeight.w600,
-                          color: widget.color,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 10, // Smaller arrow
-                        color: widget.color,
-                      ),
-                    ],
                   ),
                 ],
               ),

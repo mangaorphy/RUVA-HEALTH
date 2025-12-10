@@ -95,12 +95,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildSectionHeader(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.primary,
+    return Container(
+      padding: const EdgeInsets.only(left: 4, bottom: 8),
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            width: 4,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF8B5CF6)
+                : const Color(0xFFEC4899),
+          ),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
       ),
     );
   }
@@ -134,7 +150,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.error, color: Colors.red, size: 20),
+                          Icon(Icons.error_rounded,
+                              color: Colors.red, size: 20),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -152,7 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       CircleAvatar(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         child: Icon(
-                          Icons.person,
+                          Icons.person_rounded,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
@@ -203,7 +220,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               decoration: const InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email),
+                prefixIcon: Icon(Icons.email_rounded),
               ),
               keyboardType: TextInputType.emailAddress,
               enabled: !authProvider.isLoading,
@@ -214,7 +231,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               decoration: const InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: Icon(Icons.lock_rounded),
               ),
               obscureText: true,
               enabled: !authProvider.isLoading,
@@ -224,9 +241,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: authProvider.isLoading
-                        ? null
-                        : () => _signIn(context),
+                    onPressed:
+                        authProvider.isLoading ? null : () => _signIn(context),
                     child: authProvider.isLoading
                         ? const SizedBox(
                             height: 20,
@@ -239,9 +255,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: authProvider.isLoading
-                        ? null
-                        : () => _signUp(context),
+                    onPressed:
+                        authProvider.isLoading ? null : () => _signUp(context),
                     child: authProvider.isLoading
                         ? const SizedBox(
                             height: 20,
@@ -269,8 +284,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: Icon(
                 themeProvider.themeMode == ThemeMode.dark
-                    ? Icons.dark_mode
-                    : Icons.light_mode,
+                    ? Icons.dark_mode_rounded
+                    : Icons.light_mode_rounded,
                 color: theme.colorScheme.primary,
               ),
               title: const Text('Dark Mode'),
@@ -302,7 +317,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Column(
           children: [
             ListTile(
-              leading: Icon(Icons.language, color: theme.colorScheme.primary),
+              leading: Icon(Icons.language_rounded,
+                  color: theme.colorScheme.primary),
               title: Text(localizations.language),
               subtitle: Text(
                 _getCurrentLanguageName(languageProvider.locale.languageCode),
@@ -344,7 +360,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           ListTile(
             leading: Icon(
-              Icons.notifications,
+              Icons.notifications_rounded,
               color: Theme.of(context).colorScheme.primary,
             ),
             title: const Text('Notifications'),
@@ -362,7 +378,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (const bool.fromEnvironment('dart.vm.product') == false) ...[
             ListTile(
               leading: Icon(
-                Icons.bug_report,
+                Icons.bug_report_rounded,
                 color: Theme.of(context).colorScheme.secondary,
               ),
               title: const Text('Debug Notifications'),
@@ -376,7 +392,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
           ListTile(
             leading: Icon(
-              Icons.backup,
+              Icons.backup_rounded,
               color: Theme.of(context).colorScheme.primary,
             ),
             title: const Text('Backup Data'),
@@ -389,7 +405,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Divider(height: 1),
           ListTile(
             leading: Icon(
-              Icons.privacy_tip,
+              Icons.privacy_tip_rounded,
               color: Theme.of(context).colorScheme.primary,
             ),
             title: const Text('Privacy'),
@@ -410,7 +426,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           ListTile(
             leading: Icon(
-              Icons.info,
+              Icons.info_rounded,
               color: Theme.of(context).colorScheme.primary,
             ),
             title: const Text('About Cycle Tracker'),
@@ -422,7 +438,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Divider(height: 1),
           ListTile(
             leading: Icon(
-              Icons.support,
+              Icons.support_rounded,
               color: Theme.of(context).colorScheme.primary,
             ),
             title: const Text('Support'),
@@ -435,7 +451,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Divider(height: 1),
           ListTile(
             leading: Icon(
-              Icons.star,
+              Icons.star_rounded,
               color: Theme.of(context).colorScheme.primary,
             ),
             title: const Text('Rate App'),

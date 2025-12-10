@@ -41,62 +41,75 @@ class _MainScreenState extends State<MainScreen> {
     NavigationProvider navigationProvider,
     ThemeData theme,
   ) {
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Container(
-      height: 60 + MediaQuery.of(context).padding.bottom,
+      height: 70 + MediaQuery.of(context).padding.bottom,
       decoration: BoxDecoration(
-        color: theme.brightness == Brightness.dark
-            ? const Color(0xFF1C1C1E)
-            : Colors.white,
-        border: Border(
-          top: BorderSide(
-            color: theme.brightness == Brightness.dark
-                ? Colors.grey.withValues(alpha: 0.2)
-                : Colors.grey.withValues(alpha: 0.3),
-            width: 0.5,
-          ),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDarkMode
+              ? [
+                  const Color(0xFF1F1F1F),
+                  const Color(0xFF2A2A2A),
+                ]
+              : [
+                  const Color(0xFFFDF2F8),
+                  const Color(0xFFFCE7F3),
+                ],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: isDarkMode
+                ? Colors.black.withOpacity(0.3)
+                : const Color(0xFFEC4899).withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(
                 context,
-                icon: Icons.home_outlined,
-                selectedIcon: Icons.home,
+                icon: Icons.home_rounded,
+                label: 'Home',
                 index: 0,
                 isSelected: navigationProvider.selectedIndex == 0,
                 onTap: () => navigationProvider.setIndex(0),
-                theme: theme,
+                isDarkMode: isDarkMode,
               ),
               _buildNavItem(
                 context,
-                icon: Icons.calendar_today_outlined,
-                selectedIcon: Icons.calendar_today,
+                icon: Icons.calendar_month_rounded,
+                label: 'Calendar',
                 index: 1,
                 isSelected: navigationProvider.selectedIndex == 1,
                 onTap: () => navigationProvider.setIndex(1),
-                theme: theme,
+                isDarkMode: isDarkMode,
               ),
               _buildNavItem(
                 context,
-                icon: Icons.insights_outlined,
-                selectedIcon: Icons.insights,
+                icon: Icons.bar_chart_rounded,
+                label: 'Insights',
                 index: 2,
                 isSelected: navigationProvider.selectedIndex == 2,
                 onTap: () => navigationProvider.setIndex(2),
-                theme: theme,
+                isDarkMode: isDarkMode,
               ),
               _buildNavItem(
                 context,
-                icon: Icons.settings_outlined,
-                selectedIcon: Icons.settings,
+                icon: Icons.person_rounded,
+                label: 'Profile',
                 index: 3,
                 isSelected: navigationProvider.selectedIndex == 3,
                 onTap: () => navigationProvider.setIndex(3),
-                theme: theme,
+                isDarkMode: isDarkMode,
               ),
             ],
           ),
@@ -108,22 +121,61 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildNavItem(
     BuildContext context, {
     required IconData icon,
-    required IconData selectedIcon,
+    required String label,
     required int index,
     required bool isSelected,
     required VoidCallback onTap,
-    required ThemeData theme,
+    required bool isDarkMode,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        child: Icon(
-          isSelected ? selectedIcon : icon,
-          size: 28,
-          color: theme.brightness == Brightness.dark
-              ? (isSelected ? Colors.white : Colors.grey.shade400)
-              : (isSelected ? Colors.black : Colors.grey.shade600),
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                gradient: isSelected
+                    ? LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          const Color(0xFFEC4899),
+                          const Color(0xFF8B5CF6),
+                        ],
+                      )
+                    : null,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                size: 22,
+                color: isSelected
+                    ? Colors.white
+                    : (isDarkMode
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade600),
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected
+                    ? (isDarkMode
+                        ? const Color(0xFFEC4899)
+                        : const Color(0xFF8B5CF6))
+                    : (isDarkMode
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade600),
+              ),
+            ),
+          ],
         ),
       ),
     );

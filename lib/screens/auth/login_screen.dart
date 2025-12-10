@@ -46,19 +46,28 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 40),
 
-                // App Logo or Icon
+                // App Logo
                 Container(
-                  height: 120,
-                  width: 120,
+                  height: 150,
+                  width: 150,
                   alignment: Alignment.center,
-                  child: CircleAvatar(
-                    radius: 60,
-                    backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-                    child: Icon(
-                      Icons.favorite,
-                      size: 60,
-                      color: theme.colorScheme.primary,
-                    ),
+                  child: Image.asset(
+                    'assets/app_logo.png',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback to icon if logo fails to load
+                      return CircleAvatar(
+                        radius: 60,
+                        backgroundColor: theme.colorScheme.primary.withOpacity(
+                          0.1,
+                        ),
+                        child: Icon(
+                          Icons.favorite,
+                          size: 60,
+                          color: theme.colorScheme.primary,
+                        ),
+                      );
+                    },
                   ),
                 ),
 

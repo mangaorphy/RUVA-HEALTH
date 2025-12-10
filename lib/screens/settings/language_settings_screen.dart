@@ -41,11 +41,11 @@ class LanguageSettingsScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.purple, Colors.pink],
+              colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
             ),
           ),
         ),
@@ -98,12 +98,12 @@ class LanguageSettingsScreen extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? Colors.purple.withOpacity(0.1)
+                          ? const Color(0xFF8B5CF6).withOpacity(0.1)
                           : theme.cardColor,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: isSelected
-                            ? Colors.purple
+                            ? const Color(0xFF8B5CF6)
                             : theme.colorScheme.outline.withOpacity(0.3),
                         width: isSelected ? 2 : 1,
                       ),
@@ -117,14 +117,14 @@ class LanguageSettingsScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? Colors.purple.withOpacity(0.2)
+                              ? const Color(0xFF8B5CF6).withOpacity(0.2)
                               : theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
-                          Icons.language,
+                          Icons.language_rounded,
                           color: isSelected
-                              ? Colors.purple
+                              ? const Color(0xFF8B5CF6)
                               : theme.iconTheme.color,
                         ),
                       ),
@@ -132,9 +132,8 @@ class LanguageSettingsScreen extends StatelessWidget {
                         _getLanguageDisplayName(locale.languageCode),
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.normal,
                           color: theme.colorScheme.onSurface,
                         ),
                       ),
@@ -146,7 +145,8 @@ class LanguageSettingsScreen extends StatelessWidget {
                         ),
                       ),
                       trailing: isSelected
-                          ? Icon(Icons.check_circle, color: Colors.purple)
+                          ? const Icon(Icons.check_circle_rounded,
+                              color: Color(0xFF8B5CF6))
                           : Icon(
                               Icons.radio_button_unchecked,
                               color: theme.colorScheme.outline.withOpacity(0.5),
@@ -201,23 +201,24 @@ class LanguageSettingsScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: const Color(0xFFEC4899).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.blue.withOpacity(0.3)),
+                border:
+                    Border.all(color: const Color(0xFFEC4899).withOpacity(0.3)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.info, color: Colors.blue),
+                      Icon(Icons.info_rounded, color: const Color(0xFFEC4899)),
                       const SizedBox(width: 8),
                       Text(
                         'About Languages / Nezve Mitauro',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: const Color(0xFFEC4899),
                         ),
                       ),
                     ],

@@ -111,7 +111,7 @@ class _ChatbotWidgetState extends State<ChatbotWidget>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'MenstruAI Assistant',
+                        'RUVA HEALTH AI Assistant',
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -146,8 +146,7 @@ class _ChatbotWidgetState extends State<ChatbotWidget>
                 return ListView.builder(
                   controller: _scrollController,
                   padding: const EdgeInsets.all(16),
-                  itemCount:
-                      chatProvider.messages.length +
+                  itemCount: chatProvider.messages.length +
                       (chatProvider.isLoading ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == chatProvider.messages.length) {
@@ -245,9 +244,8 @@ class _ChatbotWidgetState extends State<ChatbotWidget>
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
-        mainAxisAlignment: message.isUser
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
+        mainAxisAlignment:
+            message.isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!message.isUser) ...[

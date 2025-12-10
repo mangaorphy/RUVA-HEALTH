@@ -89,7 +89,7 @@ class ChatbotProvider extends ChangeNotifier {
     if (_messages.isEmpty) {
       final welcomeMessage = ChatMessage(
         content:
-            "Hello! I'm MenstruAI, your personal menstrual health assistant. I can help you with questions about your cycle, symptoms, and app features. What would you like to know?",
+            "Hello! I'm RUVA HEALTH AI Assistant, your personal menstrual health companion. I can help you with questions about your cycle, symptoms, and app features. What would you like to know?",
         isUser: false,
         timestamp: DateTime.now(),
       );
