@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "menstrual_tracker" "\0"
+            VALUE "CompanyName", "RUVA HEALTH" "\0"
+            VALUE "FileDescription", "RUVA HEALTH" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "menstrual_tracker" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "menstrual_tracker.exe" "\0"
-            VALUE "ProductName", "menstrual_tracker" "\0"
+            VALUE "InternalName", "ruva_health" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 RUVA HEALTH. All rights reserved." "\0"
+            VALUE "OriginalFilename", "ruva_health.exe" "\0"
+            VALUE "ProductName", "RUVA HEALTH" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
